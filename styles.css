@@ -12,8 +12,22 @@ body {
   gap: 20px;
 
   padding: 20px;
-  background-color: rgba(255, 255, 255, 0.25);
+  background-color: rgba(255, 255, 255, 0.6);
   background-clip: content-box;
+}
+.container::before {
+  content: "";
+  position: absolute;
+  background: url("assets/background.png");
+  background-size: 128px 128px;
+  background-repeat: repeat;
+  animation: slide 60s linear infinite;
+  opacity: 0.1;
+  top: 0px;
+  right: 0px;
+  left: 0px;
+  bottom: 350px;
+  filter: grayscale();
 }
 /* Message text*/
 .message {
@@ -54,8 +68,9 @@ body {
 /* Info panels*/
 .info {
   box-sizing: border-box;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.35);
   text-align: center;
+  backdrop-filter: blur(4px);
 }
 #leftInfo {
   margin-left: 20px;
@@ -65,7 +80,7 @@ body {
 }
 .nameInput {
   box-sizing: border-box;
-  background-color: white;
+  background-color: lightblue;
   margin: 10px;
   height: 50px;
   line-height: 40px;
@@ -95,7 +110,7 @@ body {
   height: 270px;
 }
 .teamImage {
-  background-color: rgba(255, 255, 255, 0.25);
+  background-color: rgba(0, 0, 0, 0.5);
   width: 100px;
   height: 100px;
   border: 7px solid rgba(0, 0, 0, 1);
@@ -114,8 +129,9 @@ body {
   box-sizing: border-box;
   width: 100px;
   height: 100px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.25);
   border: 7px solid rgba(0, 0, 0, 1);
+  backdrop-filter: blur(4px);
 }
 .selectableCell {
   cursor: pointer;
@@ -162,9 +178,10 @@ body {
   display: flex;
   grid-column: 1/-1;
   height: 90px;
-  background-color: rgba(255, 255, 255, 0.25);
+  background-color: rgba(255, 255, 255, .5);
   justify-content: center;
   align-items: center;
+  backdrop-filter: blur(4px);
 }
 .button {
   width: 150px;
@@ -193,4 +210,17 @@ body {
 /* Shared */
 .noHover {
   pointer-events: none;
+}
+
+.containexr {
+  overflow: hidden;
+}
+
+@keyframes slide{
+  0% {
+    background-position: 0% 100%;
+  }
+  100% {
+    background-position: 100% 0%;
+  }
 }
