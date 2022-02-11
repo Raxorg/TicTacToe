@@ -9,7 +9,7 @@ const startButton = document.getElementById("startButton");
 window.onload = () => {
   [].forEach.call(cells, (cell) => {
     cell.onclick = () => {
-      attemptPlay(cell);
+      attemptMove(cell);
     };
   });
 
@@ -20,10 +20,12 @@ window.onload = () => {
   limitNameInput();
 };
 
-function attemptPlay(cell) {
+function attemptMove(cell) {
   if (cell.classList.contains("selectableCell")) {
     const piece = currentPlayer.team;
     cell.classList.add(piece);
+    cell.classList.remove("selectableCell");
+    checkVictory();
     currentPlayer = currentPlayer === player1 ? player2 : player1;
   }
 }
@@ -113,5 +115,88 @@ function limitNameInput() {
       }
     });
     observer.observe(nameInput, { characterData: true, subtree: true });
+  });
+}
+
+function checkVictory() {
+  victory = checkRows() ? true : checkColumns() ? true : checkDiagonals();
+  if (victory) {
+    disableCells();
+    showVictoryMessage();
+  }
+}
+
+function checkRows() {
+  piece = currentPlayer.team;
+  for (let row = 0; row < 3; row++) {
+    pieces = 0;
+    for (let column = 0; column < 3; column++) {
+      const cell = document.getElementById("cell" + column + row);
+      if (cell.classList.contains(piece)) {
+        pieces++;
+        if (pieces == 3) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
+
+function checkColumns() {
+  piece = currentPlayer.team;
+  for (let column = 0; column < 3; column++) {
+    pieces = 0;
+    for (let row = 0; row < 3; row++) {
+      const cell = document.getElementById("cell" + column + row);
+      if (cell.classList.contains(piece)) {
+        pieces++;
+        if (pieces == 3) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
+
+function checkDiagonals() {
+  console.log("Checking diagonals");
+  piece = currentPlayer.team;
+  pieces = 0;
+  for (let i = 0; i < 3; i++) {
+    const cell = document.getElementById("cell" + i + i);
+    console.log("Checking cell" + i + i);
+    if (cell.classList.contains(piece)) {
+      pieces++;
+      if (pieces == 3) {
+        return true;
+      }
+    }
+  }
+  pieces = 0;
+  for (let i = 0; i < 3; i++) {
+    inverse = 2 - i;
+    const cell = document.getElementById("cell" + i + inverse);
+    if (cell.classList.contains(piece)) {
+      pieces++;
+      if (pieces == 3) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function disableCells() {
+  [].forEach.call(cells, (cell) => {
+    cell.classList.remove("selectableCell");
+  });
+}
+
+function showVictoryMessage() {
+  messages = document.getElementsByClassName("message");
+  [].forEach.call(messages, (message) => {
+    message.innerHTML = currentPlayer.name + " WINS!!!";
   });
 }

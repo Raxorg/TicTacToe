@@ -11,11 +11,17 @@ body {
   grid-template-rows: max-content;
   gap: 20px;
 
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100vw;
+
   padding: 20px;
   background-color: rgba(255, 255, 255, 0.6);
   background-clip: content-box;
 }
-.container::before {
+.screen::before {
   content: "";
   position: absolute;
   background: url("assets/background.png");
@@ -26,7 +32,7 @@ body {
   top: 0px;
   right: 0px;
   left: 0px;
-  bottom: 350px;
+  bottom: 0px;
   filter: grayscale();
 }
 /* Message text*/
@@ -178,7 +184,7 @@ body {
   display: flex;
   grid-column: 1/-1;
   height: 90px;
-  background-color: rgba(255, 255, 255, .5);
+  background-color: rgba(255, 255, 255, 0.5);
   justify-content: center;
   align-items: center;
   backdrop-filter: blur(4px);
@@ -216,7 +222,7 @@ body {
   overflow: hidden;
 }
 
-@keyframes slide{
+@keyframes slide {
   0% {
     background-position: 0% 100%;
   }
