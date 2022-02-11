@@ -1,0 +1,196 @@
+body {
+  margin: 0px;
+  background-color: #2196f3;
+}
+/* Tic Tac Toe container */
+.container {
+  user-select: none;
+  display: grid;
+  grid-template-areas: "message message message";
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: max-content;
+  gap: 20px;
+
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.25);
+  background-clip: content-box;
+}
+/* Message text*/
+.message {
+  padding-top: 20px;
+  grid-area: message;
+
+  font-size: 34px;
+  font-family: "Courier New";
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: -2px;
+  line-height: 50px;
+}
+#messageOutline {
+  text-shadow: 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black,
+    0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black,
+    0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black,
+    0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black,
+    0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black,
+    0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black,
+    0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black;
+}
+#messageRainbow {
+  background-image: linear-gradient(
+    to left,
+    coral,
+    blueviolet,
+    turquoise,
+    greenyellow,
+    yellow,
+    orange,
+    red
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+/* Info panels*/
+.info {
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+#leftInfo {
+  margin-left: 20px;
+}
+#rightInfo {
+  margin-right: 20px;
+}
+.nameInput {
+  box-sizing: border-box;
+  background-color: white;
+  margin: 10px;
+  height: 50px;
+  line-height: 40px;
+  text-align: center;
+  border: 7px solid rgba(0, 0, 0, 1);
+  font-family: "Courier New";
+  font-weight: bolder;
+  font-size: 24px;
+}
+.disabledNameInput {
+  background-color: transparent;
+  border-color: transparent;
+  text-shadow: 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black,
+    0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black,
+    0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black;
+}
+#input1 {
+  animation-iteration-count: infinite;
+  animation-duration: 4s;
+}
+#input2 {
+  animation-iteration-count: infinite;
+  animation-duration: 4s;
+}
+.imageContainer {
+  width: fill;
+  height: 270px;
+}
+.teamImage {
+  background-color: rgba(255, 255, 255, 0.25);
+  width: 100px;
+  height: 100px;
+  border: 7px solid rgba(0, 0, 0, 1);
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  gap: 20px;
+}
+.cell {
+  box-sizing: border-box;
+  width: 100px;
+  height: 100px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 7px solid rgba(0, 0, 0, 1);
+}
+.selectableCell {
+  cursor: pointer;
+}
+/* Pieces */
+.x {
+  cursor: default;
+  content: url("assets/close.png");
+  animation-name: xColorchange;
+  animation-iteration-count: infinite;
+  animation-duration: 4s;
+}
+.o {
+  cursor: default;
+  content: url("assets/location_searching.png");
+  animation-name: oColorchange;
+  animation-iteration-count: infinite;
+  animation-duration: 4s;
+}
+@keyframes xColorchange {
+  0% {
+    filter: hue-rotate(-90deg);
+  }
+  50% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(-90deg);
+  }
+}
+@keyframes oColorchange {
+  0% {
+    filter: hue-rotate(90deg);
+  }
+  50% {
+    filter: hue-rotate(270deg);
+  }
+  100% {
+    filter: hue-rotate(90deg);
+  }
+}
+/* Buttons */
+#buttonArea {
+  display: flex;
+  grid-column: 1/-1;
+  height: 90px;
+  background-color: rgba(255, 255, 255, 0.25);
+  justify-content: center;
+  align-items: center;
+}
+.button {
+  width: 150px;
+  height: 50px;
+  border: 7px solid black;
+  border-radius: 35px;
+  cursor: pointer;
+  font-size: 40px;
+  font-family: "Courier New";
+  font-weight: bold;
+  text-align: center;
+  line-height: 50px;
+  color: white;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 50%;
+  text-shadow: 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black,
+    0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black,
+    0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black;
+}
+.button:hover {
+  opacity: 100%;
+}
+#startButton {
+  background-color: red;
+}
+/* Shared */
+.noHover {
+  pointer-events: none;
+}
