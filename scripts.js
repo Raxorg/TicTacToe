@@ -235,6 +235,7 @@ function limitNameInput() {
 function checkVictory() {
   victory = checkRows() ? true : checkColumns() ? true : checkDiagonals();
   if (victory) {
+    addScore(currentPlayer.name);
     disableCells();
     showVictoryMessage();
     enableButtons();
@@ -311,7 +312,8 @@ function disableCells() {
 
 function showVictoryMessage() {
   [...messages].forEach((message) => {
-    message.innerHTML = currentPlayer.name + " WINS!!!";
+    victories = localStorage.getItem(currentPlayer.name);
+    message.innerHTML = currentPlayer.name + " WINS!!! Victories: " + victories;
   });
 }
 
@@ -333,6 +335,8 @@ function randomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
-/*
-2. Scores
-*/
+function addScore(player) {
+  score = Number(localStorage.getItem(player)) + 1;
+  localStorage.setItem(player, score);
+  console.log(score);
+}
