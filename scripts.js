@@ -1,10 +1,11 @@
 let player1, player2, currentPlayer;
 let started;
+let nameInputWidth;
 
 const input1 = document.getElementById("input1");
 const input2 = document.getElementById("input2");
 const cells = document.getElementsByClassName("cell");
-const startButton = document.getElementById("startButton");
+const PvPButton = document.getElementById("PvPButton");
 
 window.onload = () => {
   [].forEach.call(cells, (cell) => {
@@ -13,11 +14,21 @@ window.onload = () => {
     };
   });
 
-  startButton.onclick = () => {
+  PvPButton.onclick = () => {
     attemptStart();
   };
 
+  nameInput = document.getElementById("input1");
+  nameInputWidth = nameInput.offsetWidth;
   limitNameInput();
+};
+
+window.onresize = () => {
+  nameInputs = document.querySelectorAll(".nameInput");
+  nameInputs.forEach((nameInput) => {
+    nameInput.innerHTML = nameInput.innerHTML.substr(0, 5);
+  });
+  nameInputWidth = nameInputs[0].offsetWidth;
 };
 
 function attemptMove(cell) {
@@ -48,11 +59,11 @@ function validatePlayerNames() {
   const name1 = input1.innerHTML;
   const name2 = input2.innerHTML;
   const letters = /^[A-Za-z]+$/;
-  if (!letters.test(name1) || !name1.length > 2) {
+  if (!(letters.test(name1) && name1.length > 2)) {
     alert("invalid name 1");
     return false;
   }
-  if (!letters.test(name2) || !name2.length > 2) {
+  if (!(letters.test(name2) && name2.length > 2)) {
     alert("invalid name 2");
     return false;
   }
@@ -95,7 +106,7 @@ function disablePanels() {
   input1.contentEditable = false;
   input2.classList.add("disabledNameInput");
   input2.contentEditable = false;
-  startButton.classList.add("noHover");
+  PvPButton.classList.add("noHover");
 }
 
 class player {
@@ -110,8 +121,9 @@ function limitNameInput() {
   [].forEach.call(nameInputs, (nameInput) => {
     const observer = new MutationObserver(() => {
       var len = nameInput.innerHTML.length;
-      if (len > 10) {
-        nameInput.innerHTML = nameInput.innerHTML.substr(0, 10);
+      inputWidth = nameInput.offsetWidth;
+      if (inputWidth > nameInputWidth) {
+        nameInput.innerHTML = nameInput.innerHTML.substr(0, len - 1);
       }
     });
     observer.observe(nameInput, { characterData: true, subtree: true });
@@ -161,12 +173,10 @@ function checkColumns() {
 }
 
 function checkDiagonals() {
-  console.log("Checking diagonals");
   piece = currentPlayer.team;
   pieces = 0;
   for (let i = 0; i < 3; i++) {
     const cell = document.getElementById("cell" + i + i);
-    console.log("Checking cell" + i + i);
     if (cell.classList.contains(piece)) {
       pieces++;
       if (pieces == 3) {
@@ -189,14 +199,23 @@ function checkDiagonals() {
 }
 
 function disableCells() {
-  [].forEach.call(cells, (cell) => {
+  messages = document.querySelectorAll(".cell");
+  messages.forEach((cell) => {
     cell.classList.remove("selectableCell");
   });
 }
 
 function showVictoryMessage() {
   messages = document.getElementsByClassName("message");
-  [].forEach.call(messages, (message) => {
+  [...messages].forEach((message) => {
     message.innerHTML = currentPlayer.name + " WINS!!!";
   });
 }
+
+/*
+1. RESET
+2. No usar alerts
+3. Revisar validación largo del nombre
+a. Investigar data attributes
+c. Investigar funciones puras, inmutabilidad
+*/
