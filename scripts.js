@@ -18,7 +18,11 @@ window.onload = () => {
   });
 
   PvPButton.onclick = () => {
-    attemptStart();
+    startMultiplayer();
+  };
+
+  PvEButton.onclick = () => {
+    startSinglePlayer();
   };
 
   nameInputWidth = input1.offsetWidth;
@@ -38,17 +42,48 @@ function attemptMove(cell) {
     const piece = currentPlayer.team;
     cell.classList.add(piece);
     cell.classList.remove("selectableCell");
-    checkVictory();
+    if (checkVictory()) {
+      return;
+    }
     currentPlayer = currentPlayer === player1 ? player2 : player1;
+    if (currentPlayer.name === "A.I.") {
+      makeAIMove();
+    }
+    return true;
+  }
+  return false;
+}
+
+function startMultiplayer() {
+  const name1 = input1.innerHTML;
+  const name2 = input2.innerHTML;
+  if (name1 === name2) {
+    showError("Names can't be equal");
+    return;
+  }
+  initialSetup(name1, name2);
+}
+
+function startSinglePlayer() {
+  if (!initialSetup(input1.innerHTML)) {
+    return;
+  }
+  input2.innerHTML = "A.I.";
+  player2.name = "A.I.";
+  [...messages].forEach((message) => {
+    message.innerHTML = "You are weak, human";
+  });
+  if (player2.team === "x") {
+    makeAIMove();
   }
 }
 
-function attemptStart() {
+function initialSetup(...names) {
   if (started && !ended) {
-    return;
+    return false;
   }
-  if (!validatePlayerNames()) {
-    return;
+  if (!validatePlayerNames(...names)) {
+    return false;
   }
   initPlayers();
   updateTeamImages();
@@ -59,21 +94,14 @@ function attemptStart() {
   });
   started = true;
   ended = false;
+  return true;
 }
 
-function validatePlayerNames() {
-  const name1 = input1.innerHTML;
-  const name2 = input2.innerHTML;
-
-  if (!(checkLetters(name1, 1) && checkLength(name1, 1))) {
-    return false;
-  }
-  if (!(checkLetters(name2, 2) && checkLength(name2, 2))) {
-    return false;
-  }
-  if (name1 === name2) {
-    showError("Names can't be equal");
-    return false;
+function validatePlayerNames(...names) {
+  for (let i = 0; i < names.length; i++) {
+    if (!(checkLength(names[i], i + 1) && checkLetters(names[i], i + 1))) {
+      return false;
+    }
   }
   return true;
 }
@@ -176,6 +204,7 @@ function checkVictory() {
     enableButtons();
     ended = true;
   }
+  return victory;
 }
 
 function checkRows() {
@@ -253,6 +282,19 @@ function showVictoryMessage() {
 function enableButtons() {
   PvPButton.classList.remove("noHover");
   PvEButton.classList.remove("noHover");
+}
+
+function makeAIMove() {
+  randomCol = randomInt(3);
+  randomRow = randomInt(3);
+  const cell = document.getElementById("cell" + randomCol + randomRow);
+  if (!attemptMove(cell)) {
+    makeAIMove();
+  }
+}
+
+function randomInt(max) {
+  return Math.floor(Math.random() * max);
 }
 
 /*
