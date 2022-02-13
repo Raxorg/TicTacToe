@@ -7,6 +7,8 @@ const messages = document.getElementsByClassName("message");
 const input1 = document.getElementById("input1");
 const input2 = document.getElementById("input2");
 const cells = document.querySelectorAll(".cell");
+const player1Image = document.getElementById("teamImage1");
+const player2Image = document.getElementById("teamImage2");
 const PvPButton = document.getElementById("PvPButton");
 const PvEButton = document.getElementById("PvEButton");
 
@@ -18,6 +20,17 @@ window.onload = () => {
   });
 
   PvPButton.onclick = () => {
+    if (ended && player2.name === "A.I.") {
+      resetNameInputs();
+      resetCells();
+      resetTeamImages();
+      [...messages].forEach((message) => {
+        message.innerHTML = "Welcome to Groxar's Tic Tac Toe!";
+      });
+      started = false;
+      ended = false;
+      return;
+    }
     startMultiplayer();
   };
 
@@ -28,6 +41,30 @@ window.onload = () => {
   nameInputWidth = input1.offsetWidth;
   limitNameInput();
 };
+
+function resetNameInputs() {
+  input1.innerHTML = "";
+  input2.innerHTML = "";
+  input1.style.color = "black";
+  input2.style.color = "black";
+  input1.style.animationName = "";
+  input2.style.animationName = "";
+  input1.classList.remove("disabledNameInput");
+  input1.contentEditable = true;
+  input2.classList.remove("disabledNameInput");
+  input2.contentEditable = true;
+}
+
+function resetCells() {
+  [].forEach.call(cells, (cell) => {
+    cell.classList.remove("x", "o");
+  });
+}
+
+function resetTeamImages() {
+  player1Image.classList.remove("x", "o");
+  player2Image.classList.remove("x", "o");
+}
 
 window.onresize = () => {
   nameInputs = document.querySelectorAll(".nameInput");
@@ -43,7 +80,7 @@ function attemptMove(cell) {
     cell.classList.add(piece);
     cell.classList.remove("selectableCell");
     if (checkVictory()) {
-      return;
+      return true;
     }
     currentPlayer = currentPlayer === player1 ? player2 : player1;
     if (currentPlayer.name === "A.I.") {
@@ -55,6 +92,7 @@ function attemptMove(cell) {
 }
 
 function startMultiplayer() {
+  console.log("ASD");
   const name1 = input1.innerHTML;
   const name2 = input2.innerHTML;
   if (name1 === name2) {
@@ -89,6 +127,7 @@ function initialSetup(...names) {
   updateTeamImages();
   setupCells();
   disablePanels();
+  clearTimeout(timeout);
   [...messages].forEach((message) => {
     message.innerHTML = "Fight!";
   });
@@ -150,8 +189,6 @@ function initPlayers() {
 }
 
 function updateTeamImages() {
-  const player1Image = document.getElementById("teamImage1");
-  const player2Image = document.getElementById("teamImage2");
   player1Image.classList.remove("x", "o");
   player1Image.classList.add(player1.team);
   player2Image.classList.remove("x", "o");
@@ -161,8 +198,7 @@ function updateTeamImages() {
 function setupCells() {
   [].forEach.call(cells, (cell) => {
     cell.classList.add("selectableCell");
-    cell.classList.remove("x");
-    cell.classList.remove("o");
+    cell.classList.remove("x", "o");
   });
 }
 
@@ -298,7 +334,5 @@ function randomInt(max) {
 }
 
 /*
-1. RESET
 2. Scores
-3. PvE
 */
