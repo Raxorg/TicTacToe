@@ -92,7 +92,6 @@ function attemptMove(cell) {
 }
 
 function startMultiplayer() {
-  console.log("ASD");
   const name1 = input1.innerHTML;
   const name2 = input2.innerHTML;
   if (name1 === name2) {
@@ -240,6 +239,8 @@ function checkVictory() {
     showVictoryMessage();
     enableButtons();
     ended = true;
+  } else {
+    checkDraw();
   }
   return victory;
 }
@@ -304,6 +305,22 @@ function checkDiagonals() {
   return false;
 }
 
+function checkDraw() {
+  emptyCells = 0;
+  cells.forEach((cell) => {
+    if (cell.classList.contains("selectableCell")) {
+      emptyCells++;
+    }
+  });
+  if (emptyCells === 0) {
+    [...messages].forEach((message) => {
+      message.innerHTML = "Draw! :/";
+      enableButtons();
+      ended = true;
+    });
+  }
+}
+
 function disableCells() {
   cells.forEach((cell) => {
     cell.classList.remove("selectableCell");
@@ -338,5 +355,4 @@ function randomInt(max) {
 function addScore(player) {
   score = Number(localStorage.getItem(player)) + 1;
   localStorage.setItem(player, score);
-  console.log(score);
 }
