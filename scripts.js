@@ -2,9 +2,10 @@ let player1, player2, currentPlayer;
 let started;
 let nameInputWidth;
 
+const messages = document.getElementsByClassName("message");
 const input1 = document.getElementById("input1");
 const input2 = document.getElementById("input2");
-const cells = document.getElementsByClassName("cell");
+const cells = document.querySelectorAll(".cell");
 const PvPButton = document.getElementById("PvPButton");
 
 window.onload = () => {
@@ -18,8 +19,7 @@ window.onload = () => {
     attemptStart();
   };
 
-  nameInput = document.getElementById("input1");
-  nameInputWidth = nameInput.offsetWidth;
+  nameInputWidth = input1.offsetWidth;
   limitNameInput();
 };
 
@@ -58,20 +58,46 @@ function attemptStart() {
 function validatePlayerNames() {
   const name1 = input1.innerHTML;
   const name2 = input2.innerHTML;
-  const letters = /^[A-Za-z]+$/;
-  if (!(letters.test(name1) && name1.length > 2)) {
-    alert("invalid name 1");
+
+  if (!(checkLetters(name1, 1) && checkLength(name1, 1))) {
     return false;
   }
-  if (!(letters.test(name2) && name2.length > 2)) {
-    alert("invalid name 2");
+  if (!(checkLetters(name2, 2) && checkLength(name2, 2))) {
     return false;
   }
   if (name1 === name2) {
-    alert("names are equal");
+    showError("Names can't be equal");
     return false;
   }
   return true;
+}
+
+function checkLetters(name, player) {
+  const letters = /^[A-Za-z]+$/;
+  if (letters.test(name)) {
+    return true;
+  }
+  showError("Name " + player + " has invalid characters");
+  return false;
+}
+
+function checkLength(name, player) {
+  if (name.length >= 3) {
+    return true;
+  }
+  showError("Name " + player + " is too short");
+  return false;
+}
+
+function showError(error) {
+  [...messages].forEach((message) => {
+    message.innerHTML = error;
+  });
+  setTimeout(() => {
+    [...messages].forEach((message) => {
+      message.innerHTML = "Welcome to Groxar's Tic Tac Toe!";
+    });
+  }, 2500);
 }
 
 function initPlayers() {
@@ -199,14 +225,12 @@ function checkDiagonals() {
 }
 
 function disableCells() {
-  messages = document.querySelectorAll(".cell");
-  messages.forEach((cell) => {
+  cells.forEach((cell) => {
     cell.classList.remove("selectableCell");
   });
 }
 
 function showVictoryMessage() {
-  messages = document.getElementsByClassName("message");
   [...messages].forEach((message) => {
     message.innerHTML = currentPlayer.name + " WINS!!!";
   });
@@ -214,8 +238,4 @@ function showVictoryMessage() {
 
 /*
 1. RESET
-2. No usar alerts
-3. Revisar validación largo del nombre
-a. Investigar data attributes
-c. Investigar funciones puras, inmutabilidad
 */
