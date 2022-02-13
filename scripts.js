@@ -1,12 +1,14 @@
 let player1, player2, currentPlayer;
-let started;
+let started, ended;
 let nameInputWidth;
 
+let timeout;
 const messages = document.getElementsByClassName("message");
 const input1 = document.getElementById("input1");
 const input2 = document.getElementById("input2");
 const cells = document.querySelectorAll(".cell");
 const PvPButton = document.getElementById("PvPButton");
+const PvEButton = document.getElementById("PvEButton");
 
 window.onload = () => {
   [].forEach.call(cells, (cell) => {
@@ -42,7 +44,7 @@ function attemptMove(cell) {
 }
 
 function attemptStart() {
-  if (started) {
+  if (started && !ended) {
     return;
   }
   if (!validatePlayerNames()) {
@@ -50,9 +52,13 @@ function attemptStart() {
   }
   initPlayers();
   updateTeamImages();
-  enableCells();
+  setupCells();
   disablePanels();
+  [...messages].forEach((message) => {
+    message.innerHTML = "Fight!";
+  });
   started = true;
+  ended = false;
 }
 
 function validatePlayerNames() {
@@ -90,10 +96,11 @@ function checkLength(name, player) {
 }
 
 function showError(error) {
+  clearTimeout(timeout);
   [...messages].forEach((message) => {
     message.innerHTML = error;
   });
-  setTimeout(() => {
+  timeout = setTimeout(() => {
     [...messages].forEach((message) => {
       message.innerHTML = "Welcome to Groxar's Tic Tac Toe!";
     });
@@ -117,13 +124,17 @@ function initPlayers() {
 function updateTeamImages() {
   const player1Image = document.getElementById("teamImage1");
   const player2Image = document.getElementById("teamImage2");
+  player1Image.classList.remove("x", "o");
   player1Image.classList.add(player1.team);
+  player2Image.classList.remove("x", "o");
   player2Image.classList.add(player2.team);
 }
 
-function enableCells() {
+function setupCells() {
   [].forEach.call(cells, (cell) => {
     cell.classList.add("selectableCell");
+    cell.classList.remove("x");
+    cell.classList.remove("o");
   });
 }
 
@@ -133,6 +144,7 @@ function disablePanels() {
   input2.classList.add("disabledNameInput");
   input2.contentEditable = false;
   PvPButton.classList.add("noHover");
+  PvEButton.classList.add("noHover");
 }
 
 class player {
@@ -161,6 +173,8 @@ function checkVictory() {
   if (victory) {
     disableCells();
     showVictoryMessage();
+    enableButtons();
+    ended = true;
   }
 }
 
@@ -236,6 +250,13 @@ function showVictoryMessage() {
   });
 }
 
+function enableButtons() {
+  PvPButton.classList.remove("noHover");
+  PvEButton.classList.remove("noHover");
+}
+
 /*
 1. RESET
+2. Scores
+3. PvE
 */
