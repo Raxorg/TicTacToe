@@ -7,6 +7,5 @@ Assignment for the Frontend mentoring sessions
 - Well structured code
 - 1 HTML, 1 CSS, 1 JS
 - Shared-screen multiplayer
-## WIP
 - Single player vs AI
 - Score persisting
