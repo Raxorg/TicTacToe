@@ -1,0 +1,36 @@
+#buttonArea {
+  grid-area: button;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  font-size: calc(3.25vmin + 1vmax);
+  font-family: "Courier New";
+  font-weight: bold;
+  letter-spacing: -2px;
+  line-height: 50px;
+  padding: 0px 20px 20px;
+  text-align: center;
+}
+.button {
+  color: white;
+  text-shadow: 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black,
+    0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black,
+    0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black;
+}
+.button:not(.enabled) {
+  background-color: rgb(128, 128, 128, 0.5);
+  color: rgb(128, 128, 128, 1);
+}
+#PvPButton.enabled {
+  background-color: rgba(255, 165, 0, 0.5);
+}
+#PvPButton.enabled:hover {
+  cursor: pointer;
+  background-color: rgb(255, 165, 0);
+}
+#PvEButton.enabled {
+  background-color: rgb(154, 205, 50, 0.5);
+}
+#PvEButton.enabled:hover {
+  cursor: pointer;
+  background-color: rgb(154, 205, 50);
+}

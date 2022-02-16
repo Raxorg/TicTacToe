@@ -1,0 +1,23 @@
+.grid {
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(0, 0, 0, 1);
+  box-sizing: border-box;
+  display: grid;
+  grid-area: grid;
+  height: 100%;
+  margin-left: 20px;
+}
+.cell {
+  border: 2px solid rgba(0, 0, 0, 1);
+  box-sizing: border-box;
+}
+.selectableCell {
+  cursor: pointer;
+}
+/* Pieces */
+.x {
+  content: url("/assets/x.png");
+}
+.o {
+  content: url("/assets/o.png");
+}

@@ -1,0 +1,110 @@
+body {
+  margin: 0px;
+  background-color: #2196f3;
+}
+.screen::before {
+  content: "";
+  position: absolute;
+  background: url("/assets/background.png");
+  background-size: 128px 128px;
+  background-repeat: repeat;
+  animation: slide 30s linear infinite alternate;
+  opacity: 0.1;
+  top: 0px;
+  right: 0px;
+  left: 0px;
+  bottom: 0px;
+  filter: grayscale();
+}
+@keyframes slide {
+  0% {
+    background-position: 0% 100%;
+  }
+  100% {
+    background-position: 100% 0%;
+  }
+}
+/* Tic Tac Toe container */
+.container {
+  user-select: none;
+  display: grid;
+  grid-template-areas:
+    "message message"
+    "grid info"
+    "button button";
+  grid-template-columns: max-content 1fr;
+  grid-template-rows: max-content 1fr max-content;
+  gap: 20px;
+
+  box-sizing: border-box;
+  overflow: hidden;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+}
+/* Message text*/
+.message {
+  padding-top: 20px;
+  grid-area: message;
+
+  font-size: calc(3.25vmin + 1vmax);
+  font-family: "Courier New";
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: -2px;
+  line-height: 50px;
+}
+#messageOutline {
+  text-shadow: 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black,
+    0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black,
+    0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black,
+    0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black,
+    0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black,
+    0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black,
+    0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black;
+}
+#messageRainbow {
+  background-image: linear-gradient(
+    to left,
+    coral,
+    blueviolet,
+    turquoise,
+    greenyellow,
+    yellow,
+    orange,
+    red
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+/* Info panels*/
+#info {
+  display: grid;
+  background-color: rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
+  grid-area: info;
+  margin-right: 20px;
+}
+#nameContainer {
+  margin: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.nameField::before {
+  content: "\00a0";
+}
+.nameField {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 40px;
+  line-height: 128px;
+  vertical-align: middle;
+  text-align: center;
+}
+
+/* Shared */
+.noHover {
+  pointer-events: none;
+}
