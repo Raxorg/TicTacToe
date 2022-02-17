@@ -16,8 +16,8 @@
 }
 /* Pieces */
 .x {
-  content: url("/assets/x.png");
+  content: url("../assets/x.png");
 }
 .o {
-  content: url("/assets/o.png");
+  content: url("../assets/o.png");
 }
