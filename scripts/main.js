@@ -19,6 +19,7 @@ window.onload = () => {
     startSinglePlayer();
   };
   makeGrid();
+  initGrid();
   makeNameInputs(10);
   limitNameLength();
 };
@@ -42,6 +43,7 @@ function startMultiplayer() {
 }
 
 function reset() {
+  grid.classList.add("modifiable");
   resetNameInputs();
   clearCells();
   disableCells();
@@ -81,6 +83,7 @@ function initialSetup(...names) {
   });
   started = true;
   ended = false;
+  grid.classList.remove("modifiable");
   return true;
 }
 

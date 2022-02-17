@@ -1,7 +1,20 @@
 let cells;
-const dimensions = 20;
+let dimensions = 3;
+
+function initGrid() {
+  grid.onclick = () => {
+    dimensions++;
+    if (dimensions > 20) {
+      dimensions = 3;
+    }
+    makeGrid();
+  };
+}
 
 function makeGrid() {
+  while (grid.firstChild) {
+    grid.removeChild(grid.firstChild);
+  }
   const cellSizePct = 100 / dimensions;
   const templateColumns = "repeat(" + dimensions + ", " + cellSizePct + "%)";
   grid.style.gridTemplateColumns = templateColumns;
@@ -64,6 +77,7 @@ function enableCells() {
 function clearCells() {
   [].forEach.call(cells, (cell) => {
     cell.classList.remove("x", "o");
+    cell.style.backgroundColor = "transparent";
   });
 }
 
