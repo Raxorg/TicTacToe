@@ -1,8 +1,8 @@
 let playerColor;
+let c, r;
 
 function checkVictory() {
-  //const victory = checkGrid();
-  const victory = checkRows() ? true : checkColumns() ? true : checkDiagonals();
+  const victory = checkGrid();
   if (victory) {
     addScore(currentPlayer.name);
     disableCells();
@@ -19,11 +19,20 @@ function checkGrid() {
   playerColor = colors[currentPlayerIndex];
   for (let column = 0; column < dimensions; column++) {
     for (let row = 0; row < dimensions; row++) {
-      const cell = document.getElementById("cell" + column + row);
+      const cell = document.getElementById("cell" + column + "-" + row);
       const color = "#" + rgba2hex(cell.style.backgroundColor);
       if (color === playerColor) {
-        if (checkRow(column, row)) {
-          return true;
+        c = column;
+        r = row;
+        const result = checkRow()
+          ? true
+          : checkColumn()
+          ? true
+          : checkDiagonalA()
+          ? true
+          : checkDiagonalB();
+        if (result) {
+          return result;
         }
       }
     }
@@ -31,16 +40,15 @@ function checkGrid() {
   return false;
 }
 
-function checkRow(column, row) {
+function checkRow() {
   let pieces = 0;
-  for (let r = row; r < row + 3; row++) {
-    console.log("cell" + column + r);
-    let cell = document.getElementById("cell" + column + row);
+  for (let row = r; row < r + 3; row++) {
+    let cell = document.getElementById("cell" + c + "-" + row);
     if (cell == null) {
       return false;
     }
-    let cellColor = "#" + rgba2hex(cell.style.backgroundColor);
-    if (cellColor === playerColor) {
+    let color = "#" + rgba2hex(cell.style.backgroundColor);
+    if (color === playerColor) {
       pieces++;
       if (pieces == 3) {
         return true;
@@ -50,57 +58,54 @@ function checkRow(column, row) {
   return false;
 }
 
-function checkRows() {
-  const piece = currentPlayer.team;
-  for (let row = 0; row < 3; row++) {
-    let pieces = 0;
-    for (let column = 0; column < 3; column++) {
-      const cell = document.getElementById("cell" + column + row);
-      if (cell.classList.contains(piece)) {
-        pieces++;
-        if (pieces == 3) {
-          return true;
-        }
-      }
+function checkColumn() {
+  let pieces = 0;
+  for (let column = c; column < c + 3; column++) {
+    let cell = document.getElementById("cell" + column + "-" + r);
+    if (cell == null) {
+      return false;
     }
-  }
-  return false;
-}
-
-function checkColumns() {
-  piece = currentPlayer.team;
-  for (let column = 0; column < 3; column++) {
-    pieces = 0;
-    for (let row = 0; row < 3; row++) {
-      const cell = document.getElementById("cell" + column + row);
-      if (cell.classList.contains(piece)) {
-        pieces++;
-        if (pieces == 3) {
-          return true;
-        }
-      }
-    }
-  }
-  return false;
-}
-
-function checkDiagonals() {
-  piece = currentPlayer.team;
-  pieces = 0;
-  for (let i = 0; i < 3; i++) {
-    const cell = document.getElementById("cell" + i + i);
-    if (cell.classList.contains(piece)) {
+    let color = "#" + rgba2hex(cell.style.backgroundColor);
+    if (color === playerColor) {
       pieces++;
       if (pieces == 3) {
         return true;
       }
     }
   }
+  return false;
+}
+
+function checkDiagonalA() {
+  let pieces = 0;
+  for (let i = 0; i < 3; i++) {
+    const column = c + i;
+    const row = r + i;
+    const cell = document.getElementById("cell" + column + "-" + row);
+    if (cell == null) {
+      return false;
+    }
+    let color = "#" + rgba2hex(cell.style.backgroundColor);
+    if (color === playerColor) {
+      pieces++;
+      if (pieces == 3) {
+        return true;
+      }
+    }
+  }
+}
+
+function checkDiagonalB() {
   pieces = 0;
   for (let i = 0; i < 3; i++) {
-    inverse = 2 - i;
-    const cell = document.getElementById("cell" + i + inverse);
-    if (cell.classList.contains(piece)) {
+    const column = c + i;
+    const row = r - i;
+    const cell = document.getElementById("cell" + column + "-" + row);
+    if (cell == null) {
+      return false;
+    }
+    let color = "#" + rgba2hex(cell.style.backgroundColor);
+    if (color === playerColor) {
       pieces++;
       if (pieces == 3) {
         return true;
@@ -135,7 +140,6 @@ function showVictoryMessage() {
 
 function rgba2hex(orig) {
   var a,
-    isPercent,
     rgb = orig
       .replace(/\s/g, "")
       .match(/^rgba?\((\d+),(\d+),(\d+),?([^,\s)]+)?/i),

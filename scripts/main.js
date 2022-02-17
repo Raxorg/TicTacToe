@@ -33,30 +33,34 @@ window.onresize = () => {
 
 function startMultiplayer() {
   if (ended && mode === modePvE) {
-    resetNameInputs();
-    clearCells();
-    disableCells();
-    [...messages].forEach((message) => {
-      message.innerHTML = "Welcome to Groxar's Tic Tac Toe!";
-    });
-    started = false;
-    ended = false;
+    reset();
     return;
   }
-  initialSetup(getPlayerNames());
+  if (initialSetup(getPlayerNames())) {
+    mode = modePvP;
+  }
+}
+
+function reset() {
+  resetNameInputs();
+  clearCells();
+  disableCells();
+  [...messages].forEach((message) => {
+    message.innerHTML = "Welcome to Groxar's Tic Tac Toe!";
+  });
+  started = false;
+  ended = false;
 }
 
 function startSinglePlayer() {
-  if (!initialSetup(getFirstName())) {
+  if (!initialSetup([getFirstName()])) {
     return;
   }
-  makeSecondNameAI();
+  spawnAIs();
   [...messages].forEach((message) => {
     message.innerHTML = "You are weak, human";
   });
-  if (player2.team === "x") {
-    makeAIMove();
-  }
+  mode = modePvE;
 }
 
 function initialSetup(...names) {
@@ -67,6 +71,7 @@ function initialSetup(...names) {
     return false;
   }
   initPlayers();
+  clearCells();
   enableCells();
   assignColors();
   disablePanels();
@@ -107,14 +112,28 @@ function disablePanels() {
 }
 
 function enableButtons() {
-  PvPButton.classList.remove("noHover");
-  PvEButton.classList.remove("noHover");
+  PvPButton.classList.add("enabled");
+  PvEButton.classList.add("enabled");
+}
+
+function spawnAIs() {
+  players[1] = new Player("A.I.", randomInt(2) ? "x" : "o");
+  players[2] = new Player("Beep", randomInt(2) ? "x" : "o");
+  players[3] = new Player("Robo", randomInt(2) ? "x" : "o");
+  players[4] = new Player("Boop", randomInt(2) ? "x" : "o");
+  players[5] = new Player("Bot", randomInt(2) ? "x" : "o");
+  players[6] = new Player("Computer", randomInt(2) ? "x" : "o");
+  players[7] = new Player("PC", randomInt(2) ? "x" : "o");
+  players[8] = new Player("Chip", randomInt(2) ? "x" : "o");
+  for (let i = 1; i < 9; i++) {
+    nameInputs[i].innerHTML = players[i].name;
+  }
 }
 
 function makeAIMove() {
-  randomCol = randomInt(3);
-  randomRow = randomInt(3);
-  const cell = document.getElementById("cell" + randomCol + randomRow);
+  randomCol = randomInt(dimensions);
+  randomRow = randomInt(dimensions);
+  const cell = document.getElementById("cell" + randomCol + "-" + randomRow);
   if (!attemptMove(cell)) {
     makeAIMove();
   }

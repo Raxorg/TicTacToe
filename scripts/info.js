@@ -62,7 +62,7 @@ function getPlayerNames() {
 
 function validatePlayerNames(names) {
   if (!checkLength(names[0])) {
-    return;
+    return false;
   }
   for (let i = 0; i < names.length; i++) {
     if (names[i].length === 0) {
@@ -94,8 +94,4 @@ function checkLength(name) {
 
 function getFirstName() {
   return nameInputs[0].innerHTML;
-}
-
-function makeSecondNameAI() {
-  nameInputs[1].innerHTML = "A.I.";
 }

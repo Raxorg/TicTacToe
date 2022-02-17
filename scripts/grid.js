@@ -16,7 +16,7 @@ function makeGrid() {
 
 function makeCell(column, row) {
   const cell = document.createElement("img");
-  cell.setAttribute("id", "cell" + column + row);
+  cell.setAttribute("id", "cell" + column + "-" + row);
   cell.classList.add("cell");
   cell.onclick = () => {
     attemptMove(cell);
@@ -38,7 +38,8 @@ function attemptMove(cell) {
       currentPlayerIndex = 0;
     }
     currentPlayer = players[currentPlayerIndex];
-    if (currentPlayer.name === "A.I.") {
+    if (currentPlayerIndex != 0 && mode == modePvE) {
+      console.log("ASD");
       makeAIMove();
     }
     return true;
